@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ic_launcher-web.png&apos; to &apos;iRost_WorkingCopy&apos;&#x0D;&#x0A;- Original project: &apos;TEST&apos;&#x0D;&#x0A;- Destination element: &apos;iRost_WorkingCopy&apos;&#x0D;&#x0A;- Original element: &apos;ic_launcher-web.png&apos;" description="Copy file" destination="=iRost_WorkingCopy" element1="ic_launcher-web.png" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1392474717710" units="0" version="1.0"/>
+</session>
