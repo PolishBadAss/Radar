@@ -4,7 +4,6 @@ import com.example.cameraUse.CameraParameters;
 import com.example.cameraUse.TakePhoto;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +24,7 @@ public class CameraActivity extends Activity {
         // Create an instance of Camera
         boolean ifCam = com.example.aplikacja_testowa1.CameraBuilder.checkCameraHardware(getBaseContext());
         mCamera = com.example.aplikacja_testowa1.CameraBuilder.getCameraInstance();
-        //mCamera=CameraParameters.setParams(mCamera);
+        
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
@@ -43,6 +42,10 @@ public class CameraActivity extends Activity {
             public void onClick(View v) {
                 // get an image from the camera
                 mCamera.takePicture(null, null, TakePhoto.mPicture);
+                Intent intent = new Intent();
+                intent.setClass(this,CameraActivity.class);
+                startActivity(intent);
+                finish(); 
             }
         }
     );}
