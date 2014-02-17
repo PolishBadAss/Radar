@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.aplikacja_testowa1"
+    android:versionCode="1"
+    android:versionName="1.2" >
+	<uses-sdk
+        android:minSdkVersion="8"/>
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGER"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.aplikacja_testowa1.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        <activity android:name="SplashScreen"
+            	android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+        
+        
+        <activity android:name=".CameraActivity"
+          android:label="@string/app_name"
+
+          android:screenOrientation="landscape">
+          <!-- configure this activity to use landscape orientation -->
+
+          <intent-filter>
+        	<action android:name="android.intent.action.MAIN" />
+        	<category android:name="android.intent.category.OPENABLE" />
+    	</intent-filter>
+		</activity>
+		
+        
+    </application>
+
+</manifest>
