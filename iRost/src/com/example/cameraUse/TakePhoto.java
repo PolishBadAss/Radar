@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.aplikacja_testowa1.CameraActivity;
 import com.example.helpers.StorageHelper;
 
 import android.R;
@@ -67,7 +68,7 @@ public class TakePhoto {
 
 	    @Override
 	    public void onPictureTaken(byte[] data, Camera camera) {
-
+	    	camera.startPreview();
 	        File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
 	        if (pictureFile == null){
 	            Log.d("IRLOG", "Error creating media file, check storage permissions: ");
@@ -78,6 +79,8 @@ public class TakePhoto {
 	            FileOutputStream fos = new FileOutputStream(pictureFile);
 	            fos.write(data);
 	            fos.close();
+	            Log.d("IRLOG","SinglePhotoTaken Variable set to true");
+	            CameraActivity.singlePhotoTaken=true;
 	        } catch (FileNotFoundException e) {
 	            Log.d("IRLOG", "File not found: " + e.getMessage());
 	        } catch (IOException e) {
@@ -86,6 +89,9 @@ public class TakePhoto {
 	    }
 	};
 	
-	
+	public static void takeThem(Camera camera,PictureCallback mPicture)
+	{
+		camera.takePicture(null, null, TakePhoto.mPicture);
+	}
 
 }

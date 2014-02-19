@@ -1,0 +1,17 @@
+package com.example.cameraUse;
+
+import java.util.List;
+
+import android.hardware.Camera;
+import android.hardware.Camera.Size;
+
+public class CameraParams 
+{	
+	public static setParams(Camera mCamera, SurfaceView yourSurfaceView)
+	{
+	Camera.Parameters parameters = camera.getParameters(); 
+	parameters.setPreviewSize(yourSurfaceView.getWidth(), yourSurfaceView.getHeight());
+	camera.setParameters(parameters);
+	return mCamera;
+	}
+}

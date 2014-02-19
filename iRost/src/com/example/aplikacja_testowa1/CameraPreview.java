@@ -1,9 +1,13 @@
 package com.example.aplikacja_testowa1;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.example.cameraUse.CameraParams;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.hardware.Camera.Size;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,6 +17,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private static final String TAG = "IRLOG";
 	private SurfaceHolder mHolder;
     private Camera mCamera;
+    private SurfaceView sf;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
@@ -27,13 +32,23 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        // The Surface has been created, now tell the camera where to draw the preview.
-        try {
-            mCamera.setPreviewDisplay(holder);
-            mCamera.startPreview();
-        } catch (IOException e) {
-            Log.d(TAG, "Error setting camera preview: " + e.getMessage());
-        }
+    	 try {
+	            
+	            mCamera.setDisplayOrientation(0);
+	            mCamera.setPreviewDisplay(holder);
+	            Camera.Parameters parameters = mCamera.getParameters();
+	            List<Size> sizes = parameters.getSupportedPictureSizes();
+	            parameters.setPictureSize(sizes.get(0).width, sizes.get(0).height); 
+	            parameters.set("orientation","portrait");
+	            //parameters.setPreviewSize(viewWidth, viewHeight);
+	            List<Size> size = parameters.getSupportedPreviewSizes();
+	            parameters.setPreviewSize(size.get(0).width, size.get(0).height);
+	            mCamera.setParameters(parameters);
+	            mCamera.startPreview();
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -67,6 +82,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
+            Log.d("IRLOG","Start Preview Called");
 
         } catch (Exception e){
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());

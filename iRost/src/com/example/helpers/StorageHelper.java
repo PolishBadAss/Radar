@@ -7,6 +7,7 @@ public class StorageHelper {
 
 	
 	
+	@SuppressWarnings("unused")
 	public static boolean sHepler()
 	{
 		

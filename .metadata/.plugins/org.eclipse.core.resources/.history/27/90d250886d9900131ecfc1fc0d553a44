@@ -1,0 +1,36 @@
+package com.example.cameraUse;
+
+import java.io.IOException;
+import java.util.List;
+
+import android.hardware.Camera;
+import android.hardware.Camera.Size;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+public class CameraParams 
+{	
+	public static SurfaceHolder setParams(Camera camera,SurfaceHolder holder)
+	{
+	
+		 try {
+	            camera = Camera.open();
+
+	            camera.setDisplayOrientation(90);
+	            camera.setPreviewDisplay(holder);
+	            Camera.Parameters parameters = camera.getParameters();
+	            List<Size> sizes = parameters.getSupportedPictureSizes();
+	            parameters.setPictureSize(sizes.get(0).width, sizes.get(0).height); 
+	            parameters.set("orientation","portrait");
+	            //parameters.setPreviewSize(viewWidth, viewHeight);
+	            List<Size> size = parameters.getSupportedPreviewSizes();
+	            parameters.setPreviewSize(size.get(0).width, size.get(0).height);
+	            camera.setParameters(parameters);
+	            camera.startPreview();
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+		return holder;
+	}
+}

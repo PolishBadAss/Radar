@@ -1,10 +1,13 @@
 package com.example.aplikacja_testowa1;
 
+import java.util.concurrent.DelayQueue;
+
 import com.example.cameraUse.TakePhoto;
 
 import android.app.Activity;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -13,6 +16,7 @@ public class CameraActivity extends Activity {
 
     private Camera mCamera;
     private CameraPreview mPreview;
+    public static boolean singlePhotoTaken=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,13 +36,16 @@ public class CameraActivity extends Activity {
     
     
  // Add a listener to the Capture button
-    Button captureButton = (Button) findViewById(R.id.Record);
+    final Button captureButton = (Button) findViewById(R.id.Record);
     captureButton.setOnClickListener(
-        new View.OnClickListener() {
+        new View.OnClickListener() 
+        {
             @Override
-            public void onClick(View v) {
-                // get an image from the camera
-                mCamera.takePicture(null, null, TakePhoto.mPicture);
+            public void onClick(View v) 
+            {
+            	Log.d("IRLOG","Clicked!");
+            	captureButton.setText("STOP");
+            	mCamera.takePicture(null, null, TakePhoto.mPicture);
             }
         }
     );}

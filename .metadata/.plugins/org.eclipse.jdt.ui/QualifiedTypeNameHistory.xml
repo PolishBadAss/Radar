@@ -3,16 +3,12 @@
 <fullyQualifiedTypeName name="android.view.MotionEvent"/>
 <fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="android.content.pm.PackageManager"/>
-<fullyQualifiedTypeName name="android.view.SurfaceView"/>
-<fullyQualifiedTypeName name="android.view.SurfaceHolder"/>
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.app.Activity"/>
-<fullyQualifiedTypeName name="android.hardware.Camera"/>
 <fullyQualifiedTypeName name="android.os.Bundle"/>
 <fullyQualifiedTypeName name="android.widget.FrameLayout"/>
 <fullyQualifiedTypeName name="com.example.aplikacja_testowa1.CameraPreview"/>
 <fullyQualifiedTypeName name="com.example.aplikacja_testowa1.SplashScreen"/>
-<fullyQualifiedTypeName name="com.example.aplikacja_testowa1.CameraActivity"/>
 <fullyQualifiedTypeName name="com.example.aplikacja_testowa1.CameraBuilder"/>
 <fullyQualifiedTypeName name="android.provider.MediaStore.Images"/>
 <fullyQualifiedTypeName name="android.hardware.Camera.PictureCallback"/>
@@ -21,7 +17,6 @@
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="android.provider.MediaStore"/>
 <fullyQualifiedTypeName name="android.os.Environment"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
@@ -32,4 +27,11 @@
 <fullyQualifiedTypeName name="android.widget.Button"/>
 <fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="com.example.cameraUse.TakePhoto"/>
+<fullyQualifiedTypeName name="android.hardware.Camera"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="android.view.SurfaceView"/>
+<fullyQualifiedTypeName name="android.view.SurfaceHolder"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="com.example.cameraUse.CameraParams"/>
+<fullyQualifiedTypeName name="com.example.aplikacja_testowa1.CameraActivity"/>
 </qualifiedTypeNameHistroy>
