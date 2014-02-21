@@ -17,6 +17,7 @@ public class CameraActivity extends Activity {
     private Camera mCamera;
     private CameraPreview mPreview;
     public static boolean singlePhotoTaken=false;
+    public static int buttonPushedCounter=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,8 @@ public class CameraActivity extends Activity {
             public void onClick(View v) 
             {
             	Log.d("IRLOG","Clicked!");
-            	captureButton.setText("STOP");
+            	captureButton.setText("S\nT\nO\nP");
+            	buttonPushedCounter++;
             	mCamera.takePicture(null, null, TakePhoto.mPicture);
             }
         }

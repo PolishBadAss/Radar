@@ -34,4 +34,5 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="com.example.cameraUse.CameraParams"/>
 <fullyQualifiedTypeName name="com.example.aplikacja_testowa1.CameraActivity"/>
+<fullyQualifiedTypeName name="java.util.concurrent.DelayQueue"/>
 </qualifiedTypeNameHistroy>

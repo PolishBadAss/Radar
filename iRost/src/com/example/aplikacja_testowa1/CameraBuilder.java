@@ -1,8 +1,16 @@
 package com.example.aplikacja_testowa1;
 
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.Size;
+import android.os.Build;
 
 public class CameraBuilder {
 	
@@ -28,5 +36,45 @@ public class CameraBuilder {
 	    }
 	    return c; // returns null if camera is unavailable
 	}
+	
+	public static Camera makeCameraFaster(Camera camera)
+	{
+		
+		 Parameters parameters = camera.getParameters();
+		 parameters.set("jpeg-quality", 70);
+		 parameters.setPictureFormat(ImageFormat.JPEG);
+		 List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
+		 Size size = sizes.get(Integer.valueOf((sizes.size()-1)/2)); //choose a medium resolution
+		 parameters.setPictureSize(size.width, size.height);
+		//set color efects to none
+		 parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
+
+		  //set antibanding to none
+		 if (parameters.getAntibanding() != null) {
+		 parameters.setAntibanding(Camera.Parameters.ANTIBANDING_OFF);
+		 }
+
+		 // set white ballance
+		 if (parameters.getWhiteBalance() != null) {
+		 parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_CLOUDY_DAYLIGHT);
+		 }
+
+		  //set flash
+		 if (parameters.getFlashMode() != null) {
+		 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		 }
+
+		  //set zoom
+		 if (parameters.isZoomSupported()) {
+		 parameters.setZoom(0);
+		 }
+
+		 //set focus mode
+		 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
+		 camera.setParameters(parameters);
+		 return camera;
+	}
+	
+	
 
 }

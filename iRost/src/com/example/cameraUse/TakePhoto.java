@@ -18,6 +18,7 @@ import android.hardware.Camera.PictureCallback;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.provider.MediaStore.Files.FileColumns;
 
@@ -47,7 +48,7 @@ public class TakePhoto {
             Log.d("IRLOG","Folder not created.");
         }
         else{
-            Log.d("IRLOG","Folder created!");
+        	Log.d("IRLOG","Folder created!");
         }
 	    
 
@@ -67,31 +68,52 @@ public class TakePhoto {
 	public static final PictureCallback mPicture = new PictureCallback() {
 
 	    @Override
-	    public void onPictureTaken(byte[] data, Camera camera) {
-	    	camera.startPreview();
-	        File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-	        if (pictureFile == null){
+	    public void onPictureTaken(final byte[] data, final Camera camera) 
+	    {
+        	camera.startPreview();
+	        final File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+	        if (pictureFile == null)
+	        {
 	            Log.d("IRLOG", "Error creating media file, check storage permissions: ");
 	            return;
 	        }
-
-	        try {
-	            FileOutputStream fos = new FileOutputStream(pictureFile);
-	            fos.write(data);
-	            fos.close();
-	            Log.d("IRLOG","SinglePhotoTaken Variable set to true");
-	            CameraActivity.singlePhotoTaken=true;
-	        } catch (FileNotFoundException e) {
-	            Log.d("IRLOG", "File not found: " + e.getMessage());
-	        } catch (IOException e) {
-	            Log.d("IRLOG", "Error accessing file: " + e.getMessage());
-	        }
+	        	new Thread(new Runnable() {
+	                public void run() {
+	                // Thread Inside
+	                	FileOutputStream fos;
+						try 
+						{
+							fos = new FileOutputStream(pictureFile);
+							fos.write(data);
+			    	        fos.close();
+						} 
+						catch (FileNotFoundException e) 
+						{
+							e.printStackTrace();
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+	    	           
+	                }
+	            }).start();
+	            
+	            
+	            // Taking pictures loop!!
+	            if(CameraActivity.buttonPushedCounter==1)
+	            {
+	                takeAnother(camera,mPicture);	                           	
+	            }
+	            // Taking pictures loop!
+	       
+	       
 	    }
 	};
 	
-	public static void takeThem(Camera camera,PictureCallback mPicture)
+	public static void takeAnother(Camera camera,PictureCallback mPicture)
 	{
-		camera.takePicture(null, null, TakePhoto.mPicture);
+		camera.takePicture(null, null, null, TakePhoto.mPicture);
 	}
 
 }
