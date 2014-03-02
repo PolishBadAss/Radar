@@ -3,6 +3,8 @@ package com.example.cameraUse;
 import java.io.IOException;
 import java.util.List;
 
+import com.example.aplikacja_testowa1.CameraBuilder;
+
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.view.SurfaceHolder;
@@ -14,7 +16,6 @@ public class CameraParams
 	
 		 try {
 	            camera = Camera.open();
-
 	            camera.setDisplayOrientation(90);
 	            camera.setPreviewDisplay(holder);
 	            Camera.Parameters parameters = camera.getParameters();
@@ -25,6 +26,9 @@ public class CameraParams
 	            List<Size> size = parameters.getSupportedPreviewSizes();
 	            parameters.setPreviewSize(size.get(0).width, size.get(0).height);
 	            camera.setParameters(parameters);
+	            //Fast
+	            camera=CameraBuilder.makeCameraFaster(camera);
+	            //Fast
 	            camera.startPreview();
 	        } catch (IOException e) {
 	            // TODO Auto-generated catch block

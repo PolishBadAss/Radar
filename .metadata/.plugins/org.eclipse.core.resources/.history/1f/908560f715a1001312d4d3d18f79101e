@@ -1,0 +1,15 @@
+package com.example.cameraUse;
+
+public class FastBurst {
+
+	public static byte[][] byteArr = new byte[100][];
+	
+	public static int counter=0;
+	
+	public static void saveThemAll(byte[][] ba,int counter)
+	{
+		
+		
+	}
+	
+}

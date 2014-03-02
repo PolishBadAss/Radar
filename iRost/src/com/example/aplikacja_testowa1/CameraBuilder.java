@@ -2,15 +2,12 @@ package com.example.aplikacja_testowa1;
 
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
-import android.os.Build;
 
 public class CameraBuilder {
 	
@@ -30,6 +27,7 @@ public class CameraBuilder {
 	    Camera c = null;
 	    try {
 	        c = Camera.open(); // attempt to get a Camera instance
+	        c=makeCameraFaster(c);
 	    }
 	    catch (Exception e){
 	        // Camera is not available (in use or does not exist)
@@ -41,14 +39,13 @@ public class CameraBuilder {
 	{
 		
 		 Parameters parameters = camera.getParameters();
-		 parameters.set("jpeg-quality", 70);
+		 parameters.set("jpeg-quality", 50);
 		 parameters.setPictureFormat(ImageFormat.JPEG);
 		 List<Camera.Size> sizes = parameters.getSupportedPictureSizes();
 		 Size size = sizes.get(Integer.valueOf((sizes.size()-1)/2)); //choose a medium resolution
-		 parameters.setPictureSize(size.width, size.height);
+		 parameters.setPictureSize((size.width/3)*2, (size.height/3)*2);
 		//set color efects to none
 		 parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
-
 		  //set antibanding to none
 		 if (parameters.getAntibanding() != null) {
 		 parameters.setAntibanding(Camera.Parameters.ANTIBANDING_OFF);
@@ -74,6 +71,8 @@ public class CameraBuilder {
 		 camera.setParameters(parameters);
 		 return camera;
 	}
+	
+	
 	
 	
 
