@@ -6,3 +6,4 @@ org.eclipse.jdt.core.compiler.compliance=1.7
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
 org.eclipse.jdt.core.compiler.source=1.7
+org.eclipse.jdt.core.userLibrary.DoJavaCV=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="2">\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacpp.jar"/>\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacv.jar"/>\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacv-android-arm.jar"/>\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacv-linux-x86.jar"/>\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacv-linux-x86_64.jar"/>\r\n\t<archive path\="D\:/AAA_ProjektZespolowy_Materia\u0142y/javacv-windows-x86.jar"/>\r\n</userlibrary>\r\n

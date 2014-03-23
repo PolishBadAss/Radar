@@ -1,0 +1,95 @@
+package com.example.videoMake;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+
+import com.example.aplikacja_testowa1.CameraActivity;
+import com.example.cameraUse.FastBurst;
+
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.widget.Toast;
+
+@TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
+public class RapeFrames {
+
+	@SuppressWarnings("unused")
+	private static final int OPTION_CLOSEST_SYNC = 2;
+	private static final int MEDIA_TYPE_IMAGE = 1;
+
+	public static ArrayList<Bitmap> getThem()
+	{
+		String src=Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/video.mp4";
+		File videoFile=new File(src);
+
+		Uri videoFileUri=Uri.parse(videoFile.toString());
+
+		MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+		retriever.setDataSource(videoFile.getAbsolutePath());
+		ArrayList<Bitmap> rev=new ArrayList<Bitmap>();
+
+		//Create a new Media Player
+		MediaPlayer mp = MediaPlayer.create(CameraActivity.cntx,videoFileUri);
+
+		int millis = mp.getDuration();
+		for(int i=0;i<millis;i+=100){
+		   Bitmap bitmap=retriever.getFrameAtTime(i * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
+		   rev.add(bitmap);
+		}
+		return rev;
+	}
+	
+	public static void saveFrames(ArrayList<Bitmap> saveBitmapList) throws IOException
+	{
+	    Random r = new Random();
+	    int folder_id = r.nextInt(1000) + 1;
+
+	    String folder = Environment.getExternalStorageDirectory().getAbsolutePath()+"Pictures/iRost/";
+	    File saveFolder=new File(folder);
+	    if(!saveFolder.exists()){
+	       saveFolder.mkdirs();
+	    }
+	    final int x=saveBitmapList.size()+2;
+	    int i=1;
+	    for (Bitmap b : saveBitmapList)
+	    {
+	    	
+	    	final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+	        b.compress(Bitmap.CompressFormat.JPEG, 70, bytes);
+	        
+	        
+	        final File f = FastBurst.getOutputMediaFile(MEDIA_TYPE_IMAGE, i);
+	        FileOutputStream fo = new FileOutputStream(f);
+	        fo.write(bytes.toByteArray());
+
+	           fo.flush();
+	           fo.close();
+
+	        i++;
+	        Toast.makeText(CameraActivity.cntx,"Frame: "+i+"/"+x, Toast.LENGTH_LONG).show();
+	    }
+	    Toast.makeText(CameraActivity.cntx,"Folder id : "+folder_id, Toast.LENGTH_LONG).show();
+
+	}
+	
+	public static void stopRecording(MediaRecorder recorder,Camera camera) {
+	    try{
+	        recorder.stop();
+	    }catch(RuntimeException stopException){
+	        stopException.printStackTrace();
+	    }
+	    camera.lock();
+	}
+	
+}

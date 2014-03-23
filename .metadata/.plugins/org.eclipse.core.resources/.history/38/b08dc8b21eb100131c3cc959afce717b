@@ -1,0 +1,96 @@
+package com.example.javacvapp;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.googlecode.javacpp.Loader;
+import com.googlecode.javacv.FrameRecorder.Exception;
+import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import com.googlecode.javacv.cpp.opencv_objdetect;
+
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
+import static com.googlecode.javacv.cpp.opencv_core.*;
+import static com.googlecode.javacv.cpp.opencv_imgproc.*;
+import static com.googlecode.javacv.cpp.opencv_highgui.*;
+
+public class VideoRape {
+
+	public static String imgPath=new String();
+	public static String imgWholePath=new String();
+	public static int i=0;
+	public static IplImage capture;
+	
+	public static void tstVideo() throws Exception, IOException
+	{
+		Loader.load(opencv_objdetect.class);
+		
+		String src=Environment.getExternalStorageDirectory().getAbsolutePath();//+"/Pictures/iRost/IMG_1.jpg";
+		//IplImage fotoTest=cvLoadImage(src);
+		
+		IplImage frame;
+		IplImage image = null;
+        IplImage prevImage = null;
+        IplImage diff = null;
+        Log.d("CeVau","Iple created");
+		
+        for(int i=1;i<=80;i++)
+		{
+			imgPath="/Pictures/iRost/IMG_"+i+".jpg";
+        	imgWholePath=src+imgPath;
+        	frame=cvLoadImage(imgWholePath); // Take i-th frame
+			Log.d("CeVau","Frame Captury!");
+			if(frame == null) 
+			{
+				Log.d("CeVau","Frame discovered null");
+				break;
+			}        
+			
+					cvSmooth(frame, frame, CV_GAUSSIAN, 9, 9, 2, 2);
+		            if (image == null) 
+		            {
+		            	// If image null = input captured frame!
+		                image = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+		                cvCvtColor(frame, image, CV_RGB2GRAY);
+		                Log.d("CeVau","image == null");
+		            } 
+		            else 
+		            {
+		            	Log.d("CeVau","Image variable not null");
+		            	// If image not null - it's not first loop iteration
+		                prevImage = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+		                prevImage = image;
+		                // So from the previous iteration
+		                // prevImage is set by image
+		                image = IplImage.create(frame.width(), frame.height(),IPL_DEPTH_8U, 1);
+		                cvCvtColor(frame, image,CV_RGB2GRAY);
+		                // image variable is overwrite with another frame
+		            }
+
+		            if (diff == null) {
+		                diff = IplImage.create(frame.width(), frame.height(),IPL_DEPTH_8U, 1);
+		                Log.d("CeVau","diff = Null");
+		                // diff null means that it hasn't been calculated yet
+		                // initialize diff variable
+		            }
+
+		            if (prevImage != null) 
+		            {
+		            	
+		            	// prevImage not null
+		            	Log.d("CeVau","prevImage != Null");
+		            	cvAbsDiff(image, prevImage, diff);
+		            	// NOW the difference between frames is calculated 
+		            	cvThreshold(diff, diff, 64, 255,CV_THRESH_BINARY);
+		            	cvSaveImage(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/0"+i+".jpg", diff);
+		            	Log.d("CeVau","Inside TRY block saving frame diff"+i);
+		            	i++;
+		            }
+		            
+		}
+			Log.d("CeVau","End loop");
+	}
+}

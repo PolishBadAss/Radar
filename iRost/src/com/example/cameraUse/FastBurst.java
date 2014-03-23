@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import android.util.Log;
+import asynchronous.TakePictureTask;
 
 import com.example.aplikacja_testowa1.CameraActivity;
 
@@ -60,5 +61,4 @@ public class FastBurst {
 
 	    return mediaFile;
 	}
-	
-}
+	}

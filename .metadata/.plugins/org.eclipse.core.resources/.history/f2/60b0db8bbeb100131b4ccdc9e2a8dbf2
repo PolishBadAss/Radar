@@ -1,0 +1,65 @@
+package com.example.blackWhiteRangeCreator;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import com.example.aplikacja_testowa1.CameraActivity;
+import com.example.aplikacja_testowa1.CameraPreview;
+import com.example.aplikacja_testowa1.R;
+import com.example.videoMake.RapeFrames;
+
+import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.os.Environment;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class CvActivity extends Activity {
+
+	public static int photoNumber;
+	public static int startNumber;
+	public static int stopNumber;
+	public static int distance;
+	public static int defDistance = 29;
+	public static int roadLength;
+	public static int defRoadLength = 24;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_cv);
+		
+		final Button calcButton = (Button) findViewById(R.id.calculateButton);
+	    calcButton.setOnClickListener(
+	        new View.OnClickListener() 
+	        {
+				@Override
+				public void onClick(View arg0) {
+					final EditText etf=(EditText) findViewById(R.id.enterTextField);
+					String registeredDistance=etf.getText().toString();
+					int registeredDistanceInteger=Integer.parseInt(registeredDistance);
+					
+				}
+	        }
+	    );
+		
+		try {
+			BlackWhiteCreator.createBWFrames();
+			BlackWhiteCreator.setRange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+
+}

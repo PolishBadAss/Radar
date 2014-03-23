@@ -1,0 +1,145 @@
+package com.example.javacvapp;
+import java.io.IOException;
+
+import com.googlecode.javacpp.Loader;
+import com.googlecode.javacv.FrameRecorder.Exception;
+import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import com.googlecode.javacv.cpp.opencv_objdetect;
+
+import android.os.Environment;
+import android.util.Log;
+
+import static com.googlecode.javacv.cpp.opencv_core.*;
+import static com.googlecode.javacv.cpp.opencv_imgproc.*;
+import static com.googlecode.javacv.cpp.opencv_highgui.*;
+
+public class VideoRape {
+
+	public static String imgPath=new String();
+	public static String imgWholePath=new String();
+	public static int i=0;
+	public static IplImage capture;
+	public static int whitePower;
+	public static int wholePower;
+	public static int[] range = new int[2];
+	public static double[] percentage;
+	public static int index;
+	
+	public static void tstVideo() throws Exception, IOException
+	{
+		Loader.load(opencv_objdetect.class);
+		
+		String src=Environment.getExternalStorageDirectory().getAbsolutePath();//+"/Pictures/iRost/IMG_1.jpg";
+		//IplImage fotoTest=cvLoadImage(src);
+		
+		IplImage frame;
+		IplImage image = null;
+        IplImage prevImage = null;
+        IplImage diff = null;
+        Log.d("CeVau","Iple created");
+		percentage=new double[80];
+        for(int i=1;i<=80;i++)
+		{
+			imgPath="/Pictures/iRost/IMG_"+i+".jpg";
+        	imgWholePath=src+imgPath;
+        	frame=cvLoadImage(imgWholePath); // Take i-th frame
+			Log.d("CeVau","Frame Captury!-> "+imgWholePath);
+			if(frame == null) 
+			{
+				Log.d("CeVau","Frame discovered null");
+				break;
+			}        
+			
+					cvSmooth(frame, frame, CV_GAUSSIAN, 9, 9, 2, 2);
+		            if (image == null) 
+		            {
+		            	// If image null = input captured frame!
+		                image = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+		                cvCvtColor(frame, image, CV_RGB2GRAY);
+		                Log.d("CeVau","image == null");
+		            } 
+		            else 
+		            {
+		            	Log.d("CeVau","Image variable not null");
+		            	// If image not null - it's not first loop iteration
+		                prevImage = IplImage.create(frame.width(), frame.height(), IPL_DEPTH_8U, 1);
+		                prevImage = image;
+		                // So from the previous iteration
+		                // prevImage is set by image
+		                image = IplImage.create(frame.width(), frame.height(),IPL_DEPTH_8U, 1);
+		                cvCvtColor(frame, image,CV_RGB2GRAY);
+		                // image variable is overwrite with another frame
+		            }
+
+		            if (diff == null) {
+		                diff = IplImage.create(frame.width(), frame.height(),IPL_DEPTH_8U, 1);
+		                Log.d("CeVau","diff = Null");
+		                // diff null means that it hasn't been calculated yet
+		                // initialize diff variable
+		            }
+
+		            if (prevImage != null) 
+		            {
+		            	
+		            	// prevImage not null
+		            	Log.d("CeVau","prevImage != Null");
+		            	Log.d("CeVau","Compare : "+prevImage+" AND "+image);
+		            	cvAbsDiff(image, prevImage, diff);
+		            	// NOW the difference between frames is calculated 
+		            	cvThreshold(diff, diff, 64, 255,CV_THRESH_BINARY);
+		            	index=i-1;
+		            	cvSaveImage(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/"+index+".jpg", diff);
+		            	whitePower = cvCountNonZero(diff);
+		            	wholePower = diff.width()*diff.height();
+		            	Log.d("CeVau", "SHOW TO ME PERCENTAGE !! -> "+whitePower+" / "+wholePower);
+		            	if(whitePower>0)
+		            	{
+		            		percentage[index]=(double)(((double)whitePower/(double)wholePower)*100);
+		            		Log.d("CeVau","Result of percentage - "+percentage[index]);
+		            	}
+		            	else
+		            		percentage[index]=0;
+		            	Log.d("CeVau","Loop for image no - "+i);	
+		            }
+		            
+		}
+			Log.d("CeVau","End loop");
+	}
+	
+	public static void setRange()
+	{
+		int cnt=percentage.length-1;
+		Log.d("CeVau","CNT set with - "+cnt);
+		int i=0;
+		if(percentage[0]>=2)
+		{
+			range[0]=0;
+			Log.d("CeVau","FIRST IMAGE WAS SET AS RANGE START!!");
+		}
+		else
+		{
+			while((percentage[i]<2)&&(i<cnt))
+			{
+				Log.d("CeVau","Detected percentage for image - "+i+" is "+percentage[i]);
+				range[0]=i;
+				Log.d("CeVau","Setting range[0] = "+i);
+				i++;
+			}
+		}
+		if(percentage[cnt]>2)
+		{
+			range[1]=cnt;
+			Log.d("CeVau","LAST IAMGE SET AS RANGE END!!");
+		}
+		else
+		{
+			while((percentage[cnt]<2)&&(cnt>0))
+			{
+				Log.d("CeVau","Detected percentage for image - "+cnt+" is "+percentage[cnt]);
+				range[1]=cnt;
+				Log.d("CeVau","Setting range[1] = "+cnt);
+				cnt=cnt-1;
+			}
+		}
+	}
+}

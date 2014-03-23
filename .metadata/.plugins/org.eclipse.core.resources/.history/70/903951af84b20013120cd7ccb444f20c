@@ -1,0 +1,162 @@
+package com.example.aplikacja_testowa1;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import com.example.blackWhiteRangeCreator.CvActivity;
+import com.example.helpers.StorageHelper;
+import com.example.videoMake.RapeFrames;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class CameraActivity extends Activity {
+
+    public static final int MEDIA_TYPE_VIDEO = 2;
+	public static Camera mCamera;
+    public static MediaRecorder mRec;
+    private CameraPreview mPreview;
+    public static boolean singlePhotoTaken=false;
+    public static int buttonPushedCounter=0;
+    public static File folder;
+    public static Context cntx;
+    public static Button captureButton; 
+
+    
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        cntx = getBaseContext();
+        // Create an instance of Camera
+        @SuppressWarnings("unused")
+		boolean ifCam = com.example.aplikacja_testowa1.CameraBuilder.checkCameraHardware(getBaseContext());
+        mCamera = com.example.aplikacja_testowa1.CameraBuilder.getCameraInstance();
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
+     // To be safe, you should check that the SDCard is mounted
+	    // using Environment.getExternalStorageState() before doing this.
+
+		boolean sCheck=StorageHelper.sHepler();
+		String sc=String.valueOf(sCheck);
+		Log.d("IRLOG",sc);
+		// Check media
+		
+		
+	    folder = new File(Environment.getExternalStoragePublicDirectory(
+	              Environment.DIRECTORY_PICTURES), "iRost");
+	    
+        boolean success = false;
+        if(!folder.exists()){
+            success = folder.mkdirs();
+        }
+        if (!success){ 
+            Log.d("IRLOG","Folder not created.");
+        }
+        else{
+        	Log.d("IRLOG","Folder created!");
+        }
+	    
+        
+    
+    
+ // Add a listener to the Capture button
+    captureButton = (Button) findViewById(R.id.Record);
+    captureButton.setOnClickListener(
+        new View.OnClickListener() 
+        {
+           
+			@Override
+            public void onClick(View v) 
+            {
+				if(buttonPushedCounter==0)
+            	{
+					buttonPushedCounter++;
+					try 
+					{
+						captureButton.setText("S\nT\nO\nP");
+						String mFileName =  Environment.getExternalStorageDirectory().getAbsolutePath();
+				        mFileName += "/Pictures/iRost/measure.mp4";
+				        
+				        //==================
+				        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+				        Camera.Parameters parameters = mCamera.getParameters();
+				        int h=profile.videoFrameHeight/4;
+				        int w=profile.videoFrameWidth/4;
+				        parameters.setPreviewSize(w,h);
+				        //parameters.setPictureSize((profile.videoFrameWidth/4),(profile.videoFrameHeight/4));
+				        mCamera.setParameters(parameters);
+				        //=================
+						mCamera.unlock();
+						mRec = new MediaRecorder();
+						mRec.setCamera(mCamera);
+						mRec.setAudioSource(MediaRecorder.AudioSource.MIC);
+						mRec.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+						//mRec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+						mRec.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+						mRec.setVideoSize(w, h);
+						mRec.setOutputFile(mFileName);
+						mRec.setPreviewDisplay(CameraPreview.mHolder.getSurface());
+						//mCamera.startPreview();
+						mRec.prepare();
+						mRec.start();
+					} 
+					catch (IllegalStateException e) 
+					{
+						e.printStackTrace();
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+            	}
+				else if (buttonPushedCounter==1)
+				{
+					RapeFrames.stopRecording(mRec, mCamera);
+					mCamera.stopPreview();
+					mCamera.lock();
+					Toast.makeText(CameraActivity.cntx,"!Colour Video Marked! Wait patiently!", Toast.LENGTH_LONG).show();
+					
+					// MAKE FRAMES FROM VIDEO!
+					//ArrayList <Bitmap> arrBM=RapeFrames.getThem();
+					RapeFrames.getThemV2();
+					try 
+					{
+						//RapeFrames.saveFrames(arrBM);
+					    if(RapeFrames.fnTaken==true)
+					    {
+					    	Intent intent = new Intent();
+				            intent.setClass(CameraActivity.cntx, CvActivity.class);
+				            startActivity(intent);
+				            finish(); 
+					    }
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
+				}
+            	
+            }
+        }
+    );
+
+    }
+}

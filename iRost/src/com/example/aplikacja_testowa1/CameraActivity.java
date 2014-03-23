@@ -2,25 +2,27 @@ package com.example.aplikacja_testowa1;
 
 import java.io.File;
 import com.example.cameraUse.FastBurst;
-import com.example.cameraUse.TakePhoto;
 import com.example.helpers.StorageHelper;
 
 import android.app.Activity;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import asynchronous.TakePhotoUsingAsyncTask;
 
 public class CameraActivity extends Activity {
 
-    private Camera mCamera;
+    public static Camera mCamera;
     private CameraPreview mPreview;
     public static boolean singlePhotoTaken=false;
     public static int buttonPushedCounter=0;
     public static File folder;
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,29 @@ public class CameraActivity extends Activity {
     
  // Add a listener to the Capture button
     final Button captureButton = (Button) findViewById(R.id.Record);
+    final AsyncTask<String, Void, String> ast=new TakePhotoUsingAsyncTask();
     captureButton.setOnClickListener(
         new View.OnClickListener() 
         {
-            @Override
+           
+			@Override
             public void onClick(View v) 
             {
-            	if(buttonPushedCounter==0)
+				if(buttonPushedCounter==0)
+            	{
+					captureButton.setText("S\nT\nO\nP");
+					
+					ast.execute();
+					//CameraActivity.buttonPushedCounter++;
+	 	            //CameraActivity.mCamera.takePicture(null, null, TakePhoto.mPicture);
+            	}
+				else if (buttonPushedCounter==1)
+				{
+					ast.cancel(true);
+	            	mCamera.stopPreview();
+	            	FastBurst.saveThemAll(FastBurst.byteArr, FastBurst.counter);            	
+				}
+            	/*if(buttonPushedCounter==0)
             	{
             		captureButton.setText("S\nT\nO\nP");
             		buttonPushedCounter++;
@@ -82,7 +100,7 @@ public class CameraActivity extends Activity {
             	{
             		mCamera.stopPreview();
             		FastBurst.saveThemAll(FastBurst.byteArr, FastBurst.counter);            	
-            	}
+            	}*/
             }
         }
     );

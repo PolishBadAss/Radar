@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="0" key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel"/>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://code.google.com/p/android-motion-detection/"/>
+		<item value="https://github.com/rdasxy/android-burst-camera.git"/>
+	</list>
+</section>

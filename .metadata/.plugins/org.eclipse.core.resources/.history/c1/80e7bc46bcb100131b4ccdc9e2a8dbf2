@@ -1,0 +1,26 @@
+package com.example.blackWhiteRangeCreator;
+
+import com.example.aplikacja_testowa1.R;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+
+public class CvActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_cv);
+		try {
+			VideoRape.createBWFrames();
+			VideoRape.setRange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+
+}

@@ -1,0 +1,12 @@
+package com.example.detectonpicturetest;
+
+import org.opencv.highgui.VideoCapture;
+
+import com.googlecode.javacv.cpp.opencv_highgui.CvCapture;
+import com.googlecode.javacv.cpp.opencv_highgui.*;
+
+public class VideoTst {
+
+	CvCapture capture=cvCreateFileCapture();
+
+}

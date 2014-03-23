@@ -1,0 +1,33 @@
+package com.example.blackWhiteRangeCreator;
+
+import com.example.aplikacja_testowa1.R;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+
+public class CvActivity extends Activity {
+
+	public static int photoNumber;
+	public static int startNumber;
+	public static int stopNumber;
+	public static int distance;
+	public static int defDistance = 29;
+	public static int roadLength;
+	public static int defRoadLength = 24;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_cv);
+		try {
+			blackWhiteCreator.createBWFrames();
+			blackWhiteCreator.setRange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+}

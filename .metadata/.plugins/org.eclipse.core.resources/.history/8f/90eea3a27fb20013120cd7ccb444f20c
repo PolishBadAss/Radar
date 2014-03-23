@@ -1,0 +1,91 @@
+package com.example.blackWhiteRangeCreator;
+
+import com.example.aplikacja_testowa1.CameraActivity;
+import com.example.aplikacja_testowa1.R;
+import com.example.videoMake.RapeFrames;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class CvActivity extends Activity {
+
+	public static double photoNumber;
+	public static int startNumber;
+	public static int stopNumber;
+	public static int distance;
+	public static int defDistance = 29;
+	public static int roadLength;
+	public static int defRoadLength = 24;
+	public static double vidDur;
+	public static double crossTime;
+	public static double photoNumberContaining;
+	
+	public static double fuckinSpeed;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_cv);
+		final Button calcButton = (Button) findViewById(R.id.calculateButton);
+	    calcButton.setOnClickListener(
+	        new View.OnClickListener() 
+	        {
+				@Override
+				public void onClick(View arg0) 
+				{
+					final EditText etf=(EditText) findViewById(R.id.enterTextField);
+					String registeredDistance=etf.getText().toString();
+					if(!registeredDistance.equals(null))
+					{
+					int registeredDistanceInteger=Integer.parseInt(registeredDistance);
+					roadLength=(int) Math.floor((defRoadLength*registeredDistanceInteger)/defDistance);
+					vidDur=RapeFrames.videoDuration;
+					photoNumber=RapeFrames.numberOfPicturesTaken;
+					Log.d("CeVau","User typed distance -==-> "+registeredDistanceInteger);
+					Log.d("CeVau","App set roadLength -==-> "+roadLength);
+					Log.d("CeVau","App created video length as -==-> "+vidDur);
+					Log.d("CeVau","App created number of photos taken -==-> "+photoNumber);
+					try 
+					{
+						BlackWhiteCreator.createBWFrames();
+						BlackWhiteCreator.setRange();
+						startNumber=BlackWhiteCreator.range[0];
+						stopNumber=BlackWhiteCreator.range[1];
+						photoNumberContaining=stopNumber-startNumber;
+						vidDur=vidDur/1000;
+						crossTime=(vidDur/photoNumber)*photoNumberContaining;
+						//crossTime in seconds
+						fuckinSpeed=roadLength/crossTime*(3.6);
+						fuckinSpeed=Math.round(fuckinSpeed);
+						Log.d("CeVau","We have SPEED - FUCK YEAH! -==-> "+fuckinSpeed+" km/h");
+						Toast.makeText(CameraActivity.cntx,"Speed km/h == "+fuckinSpeed, Toast.LENGTH_LONG).show();
+						
+					} 
+					catch (Exception e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				}
+	        }
+	    );
+		
+		/*try {
+			BlackWhiteCreator.createBWFrames();
+			BlackWhiteCreator.setRange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		
+	}
+
+
+}

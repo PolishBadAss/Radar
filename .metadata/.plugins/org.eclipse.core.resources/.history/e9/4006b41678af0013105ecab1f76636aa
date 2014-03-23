@@ -1,0 +1,8 @@
+package com.example.detectonpicturetest;
+
+import org.opencv.highgui.VideoCapture;
+
+public class VideoTst {
+
+
+}

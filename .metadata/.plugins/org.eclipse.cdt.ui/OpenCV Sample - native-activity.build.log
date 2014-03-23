@@ -1,0 +1,11 @@
+
+**** Build of configuration Default for project OpenCV Sample - native-activity ****
+
+\ndk-build.cmd 
+
+Cannot run program "\ndk-build.cmd": Launching failed
+Error: Program "/ndk-build.cmd" is not found in PATH
+
+PATH=[C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\Windows\system32\windowspowershell\v1.0\;c:\program files (x86)\ati technologies\ati.ace\core-static;c:\program files\broadcom\broadcom 802.11 network adapter\driver;c:\program files\widcomm\bluetooth software\;c:\program files\widcomm\bluetooth software\syswow64;C:\Program Files\Java\jdk1.7.0_45\bin;D:\Apache Software Foundation\apache-maven-2.2.1\bin;D:\AAA_CGM_COMPU\svn\bin;D:\AAA_CGM_COMPU\svn\bin\;D:\Apache Software Foundation\apache-maven-2.2.1\bin]
+
+**** Build Finished ****

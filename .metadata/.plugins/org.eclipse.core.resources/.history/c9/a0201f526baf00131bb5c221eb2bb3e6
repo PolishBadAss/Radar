@@ -1,0 +1,7 @@
+package com.example.detectonpicturetest;
+
+public class Snippet {
+	String src=Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/iRost/measure.mp4";
+			File videoFile=new File(src);
+}
+
